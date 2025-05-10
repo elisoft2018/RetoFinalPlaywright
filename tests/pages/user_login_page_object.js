@@ -22,6 +22,7 @@ export class UserLoginPage {
 
         await this.userInput.fill(users.validUser.username);
         await this.passwordInput.fill(users.validUser.password);
+        await this.page.screenshot({ path: 'images/user_login_unlocked.png' });
 
     }
 
@@ -29,7 +30,7 @@ export class UserLoginPage {
 
         await this.userInput.fill(users.lockedUser.username);
         await this.passwordInput.fill(users.lockedUser.password);
-    
+
     }
 
     async userInputloginUserNotExist() {
@@ -55,24 +56,30 @@ export class UserLoginPage {
         const urlhomePage = await this.page.url();
         console.log('URL de la página de inicio:', urlhomePage);
         expect(urlhomePage).toBe('https://www.saucedemo.com/inventory.html');
+        await this.page.screenshot({ path: 'images/user_login_unlocked.png' });
     }
 
     async verifyUserIsOnLockedUserMessage(message) {
         const userLockedMessage = await this.messageError.textContent();
         console.log('Mensaje de usuario bloqueado:', userLockedMessage);
         expect(userLockedMessage).toBe(message);
+        await this.page.screenshot({ path: 'images/user_login_locked.png' });
     }
 
     async verifyUserNotExistMessage(message) {
         const userNotExistMessage = await this.messageError.textContent();
         console.log('Mensaje de usuario no existe:', userNotExistMessage);
         expect(userNotExistMessage).toBe(message);
+        await this.page.screenshot({ path: 'images/user_login_not_exist.png' });
+
     }
 
     async verifyUserEmptyMessage(message) {
         const userEmptyMessage = await this.messageError.textContent();
         console.log('Mensaje de usuario vacio:', userEmptyMessage);
         expect(userEmptyMessage).toBe(message);
+        await this.page.screenshot({ path: 'images/user_login_empty.png' });
+
     }
 
     async verifyErrorMessageAccesProductsPage(message) {
@@ -80,6 +87,7 @@ export class UserLoginPage {
         const verifyErrorMessageAccesProductsPage = await this.messageError.textContent();
         console.log('Mensaje de error de acceso a la página de productos:', verifyErrorMessageAccesProductsPage);
         expect(verifyErrorMessageAccesProductsPage).toBe(message);
+        await this.page.screenshot({ path: 'images/user_login_error_acces_products_page.png' });
 
     }
 
@@ -87,5 +95,6 @@ export class UserLoginPage {
         const urlIndexPage = await this.page.url();
         console.log('URL de la página de inicio:', urlIndexPage);
         expect(urlIndexPage).toBe('https://www.saucedemo.com/');
+        await this.page.screenshot({ path: 'images/user_login_index.png' });
     }
 } 

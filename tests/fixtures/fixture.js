@@ -5,7 +5,8 @@ const { UserLoginPage,
     UserHomePageInventory,
     UserHomePageCart,
     UserHomePageCheckout,
-    UserHomePageSummaryShopping
+    UserHomePageSummaryShopping,
+    UserHomePageFinishShopping
 } = Pages;
 
 const createTestFunction = (PageClass) => async ({ page }, use) => {
@@ -19,7 +20,8 @@ export const test = base.extend({
     userHomePageInventory: createTestFunction(UserHomePageInventory),
     userHomePageCart: createTestFunction(UserHomePageCart),
     userHomePageCheckout: createTestFunction(UserHomePageCheckout),
-    userHomePageSummaryShopping: createTestFunction(UserHomePageSummaryShopping)
+    userHomePageSummaryShopping: createTestFunction(UserHomePageSummaryShopping),
+    userHomePageFinishShopping: createTestFunction(UserHomePageFinishShopping)
 
 })
 

@@ -22,7 +22,7 @@ BeforeAll(async ({browser}) => {
 
 });
 
-/* AfterAll(async () => {
+ AfterAll(async () => {
 
     console.log('Eliminando el directorio .features-gen');
     const directoryFeatureGen = path.join(__dirname, '../features-gen');
@@ -39,4 +39,4 @@ BeforeAll(async ({browser}) => {
     } else {
         console.log('El directorio .features-gen no existe.');
     }
-}); */
+}); 

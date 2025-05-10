@@ -1,6 +1,6 @@
 import { createBdd } from 'playwright-bdd';
-import { test} from '../fixtures/fixture';
-import { expect } from 'playwright/test'; 
+import { test } from '../fixtures/fixture';
+import { expect } from 'playwright/test';
 import { url } from 'inspector';
 
 
@@ -28,6 +28,7 @@ When('de clic en el botón de Login',
   async ({ userLoginPage }) => {
     // Step: When hace clic en el botón de "Login"
     await userLoginPage.clickLoginButton();
+  
 
   }
 );
@@ -185,33 +186,55 @@ When('hace clic en el botón de carrito de compras', async ({ userHomePageInvent
   await userHomePageInventory.goIntoToShoppingCart();
 });
 
-Then('se visualiza los productos añadidos en el carrito de compras', async ({ userHomePageCart,page}) => {
+Then('se visualiza los productos añadidos en el carrito de compras', async ({ userHomePageCart, page }) => {
   // Step: Then debería ver la página de checkout para diligenciar la información del cliente
- 
+
   await userHomePageCart.validateProductsAddedIntoShoppingCart();
-  console.log(userHomePageCart.totalToPay);
-  console.log(userHomePageCart.ivaValue);
-  console.log(userHomePageCart.totalShoppingValue);
 
- 
+
 
 });
 
-When('se hace clic en el botón de remove del producto', async ({userHomePageCart}) => {
+When('se hace clic en el botón de remove del producto', async ({ userHomePageCart }) => {
   // Step: When se elimina el producto del carrito de compras
-   await userHomePageCart.removeProductsCarShopping();
-   console.log('numero', userHomePageCart.totalProductsInCart);
+  await userHomePageCart.removeProductsCarShopping();
+
 });
 
-Then('no se visualiza el producto en el carrito de compras', async ({}) => {
+Then('no se visualiza el producto en el carrito de compras', async ({ userHomePageCart, userHomePageCheckout }) => {
   // Step: Then no se visualiza el producto en el carrito de compras
-  // From: tests\features\user_login.feature:50:5
+
+  await userHomePageCart.buttonCheckout();
+  await userHomePageCheckout.checkoutFormInformation();
+  await userHomePageCheckout.continueShopping();
+
 });
 
-Then('se actualiza el valor de la compra', async ({}) => {
+Then('se actualiza el valor de la compra', async ({ userHomePageSummaryShopping, userHomePageCart }) => {
   // Step: And se actualiza el valor de la compra
-  // From: tests\features\user_login.feature:51:5
+  await userHomePageSummaryShopping.captureShoppingPrice();
+  await expect(userHomePageSummaryShopping.convertSubTotalValue).toBe(userHomePageCart.totalToPayNew);
+  await expect(userHomePageSummaryShopping.convertTaxValue).toBe(userHomePageCart.ivaValueNew);
+  await expect(userHomePageSummaryShopping.convertTotalValue).toBe(userHomePageCart.totalShoppingValueNew);
+
+
 });
+
+When('cuando hace clic en el botón fihish', async ({ userHomePageSummaryShopping }) => {
+  // Step: When cuando hace clic en el botón fihish
+  userHomePageSummaryShopping.finishShopping();
+  
+
+
+});
+
+Then('deberia visualizar el mensaje de compra exitosa', async ({userHomePageFinishShopping}) => {
+  // Step: Then deberia visualizar el mensaje de compra exitosa
+await userHomePageFinishShopping.validateMessageSuccesShopping();
+  
+
+});
+
 
 /*
 Then('hace clic en el botón de checkout', async ({}) => {

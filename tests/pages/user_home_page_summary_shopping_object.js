@@ -1,6 +1,4 @@
 import { expect } from "playwright/test";
-import { UserHomePageCart } from "./user_home_page_cart_object";    
-
 export class UserHomePageSummaryShopping {
 
     convertSubTotalValue;
@@ -14,6 +12,7 @@ export class UserHomePageSummaryShopping {
         this.subTotal = page.locator('[data-test="subtotal-label"]');
         this.tax = page.locator('[data-test="tax-label"]');
         this.total = page.locator('[data-test="total-label"]');
+        this.finishButton = page.locator('[data-test="finish"]');
         this.convertSubTotalValue = 0;
         this.convertTaxValue = 0;
         this.convertTotalValue = 0;
@@ -35,7 +34,13 @@ export class UserHomePageSummaryShopping {
         const totalValue = await this.total.innerText();
         const totalCleaned = totalValue.replace(/[^0-9.]/g, '');
         this.convertTotalValue = parseFloat(totalCleaned);
+        await this.page.screenshot({ path: 'images/summary_shopping.png' });
 
+    }
+
+    async finishShopping() {
+
+        await this.finishButton.click();
 
     }
 

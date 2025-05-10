@@ -49,11 +49,8 @@ Feature: Inicio de sesión de usuario en el sitio https://www.saucedemo.com/
     When se hace clic en el botón de remove del producto
     Then no se visualiza el producto en el carrito de compras
     And se actualiza el valor de la compra
-
-
-    #Then deberia visualizar la pagina de checkout con el formulario para diligenciar la informacion
-    #When hace clic en el botón continue
-    #Then debe visualizar el resumen de la compra
+    When cuando hace clic en el botón fihish
+    Then deberia visualizar el mensaje de compra exitosa
   
 
 

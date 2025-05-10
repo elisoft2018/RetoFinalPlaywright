@@ -7,6 +7,9 @@ export class UserHomePageCart {
     totalToPay;
     ivaValue;
     totalShoppingValue;
+    totalToPayNew
+    ivaValueNew;
+    totalShoppingValueNew;
 
     constructor(page) {
 
@@ -24,6 +27,9 @@ export class UserHomePageCart {
         this.totalShoppingValue = 0;
         this.totalProductsInCart = 0;
         this.totalProductsInCart = 0;
+        this.totalToPayNew = 0;
+        this.ivaValueNew = 0;
+        this.totalShoppingValueNew = 0;
 
     }
     //Validar que los productos seleccionados inicialmente en la pagina de productos
@@ -51,6 +57,8 @@ export class UserHomePageCart {
 
         expect(this.mapProductsInCart).toEqual(this.mapProductsInCart);
 
+        await this.page.waitForLoadState("networkidle");
+
         await this.page.screenshot({ path: 'images/validate_products_into_cart.png' });
 
     }
@@ -60,15 +68,26 @@ export class UserHomePageCart {
         for (let i = 0; i < (this.totalProductsInCart-3); i++) {
 
             await this.removeProductButton.nth(i).click();
+            const newpriceProduct = await this.productsPrice.nth(i).innerText();
+            const convertedNewPrice = parseFloat(newpriceProduct.replace('$', '').replace(',', ''));
+            this.totalToPayNew += convertedNewPrice;
+            this.ivaValueNew = this.totalToPayNew * 0.08;
+            this.ivaValueNew = Number(this.ivaValueNew.toFixed(2));
+            this.totalShoppingValueNew = this.totalToPayNew + this.ivaValueNew;
+
+            
 
            } 
+  
+
              await this.page.screenshot({path:'images/remove_products_into_cart.png'});    
 
     }
-    /*     async buttonCheckout(){
+
+        async buttonCheckout(){
     
             await this.checkoutButton.click();
     
         }   
-     */
+     
 }
